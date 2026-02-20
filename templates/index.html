@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cyber-Threat Intelligence Portal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Cyber-Threat Intelligence Portal</h1>
+        <canvas id="threatChart" width="800" height="400"></canvas>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('threatChart').getContext('2d');
+
+        const data = {
+            labels: {{ threats|tojson }},
+            datasets: [{
+                label: 'Threat Count',
+                data: {{ counts|tojson }},
+                backgroundColor: [
+                    '#FF6384', '#36A2EB', '#FFCE56', '#8AFF33', '#FF8A33'
+                ]
+            }]
+        };
+
+        const config = {
+            type: 'bar',
+            data: data,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                    title: {
+                        display: true,
+                        text: 'Emerging Cyber Threats'
+                    }
+                },
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        };
+
+        new Chart(ctx, config);
+    </script>
+</body>
+</html>
+
+
